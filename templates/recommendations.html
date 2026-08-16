@@ -1,0 +1,243 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SkillPath - Recommendations</title>
+
+    <style>
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            font-family: Arial, sans-serif;
+            background: #f7f7fb;
+            color: #2b2b33;
+        }
+
+        .page {
+            width: 88%;
+            max-width: 1100px;
+            margin: 35px auto;
+        }
+
+        .navbar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 18px 24px;
+            border-radius: 18px;
+            background: linear-gradient(135deg, #6657c8, #8a67d5);
+            box-shadow: 0 8px 24px rgba(80, 67, 150, 0.18);
+            margin-bottom: 35px;
+        }
+
+        .brand {
+            color: white;
+            font-size: 20px;
+            font-weight: bold;
+        }
+
+        .nav-links a {
+            color: white;
+            text-decoration: none;
+            margin-left: 24px;
+            font-weight: 600;
+        }
+
+        .header h1 {
+            font-size: 34px;
+            margin-bottom: 8px;
+        }
+
+        .header p {
+            color: #737382;
+            margin-bottom: 28px;
+        }
+
+        .card {
+            background: white;
+            border-radius: 22px;
+            padding: 32px;
+            margin-bottom: 25px;
+            box-shadow: 0 10px 30px rgba(30, 30, 50, 0.08);
+        }
+
+        label {
+            display: block;
+            font-weight: bold;
+            margin-bottom: 9px;
+        }
+
+        select,
+        textarea {
+            width: 100%;
+            padding: 14px 16px;
+            border: 1px solid #ddddea;
+            border-radius: 12px;
+            margin-bottom: 22px;
+            font-size: 15px;
+            outline: none;
+        }
+
+        textarea {
+            min-height: 110px;
+            resize: vertical;
+        }
+
+        select:focus,
+        textarea:focus {
+            border-color: #7a66d3;
+            box-shadow: 0 0 0 3px rgba(122, 102, 211, 0.12);
+        }
+
+        button {
+            background: #705bc7;
+            color: white;
+            border: none;
+            border-radius: 12px;
+            padding: 14px 26px;
+            font-size: 16px;
+            font-weight: bold;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background: #5e49b2;
+        }
+
+        .course {
+            padding: 18px;
+            margin-top: 14px;
+            border-radius: 14px;
+            background: #f3f0ff;
+            border: 1px solid #e3dcff;
+        }
+
+        .course-name {
+            font-size: 17px;
+            font-weight: bold;
+            margin-bottom: 7px;
+        }
+
+        .score {
+            display: inline-block;
+            margin-top: 5px;
+            padding: 5px 10px;
+            background: #e5defd;
+            border-radius: 20px;
+            font-size: 13px;
+        }
+
+        .explanation {
+            margin-top: 22px;
+            padding: 16px;
+            border-radius: 12px;
+            background: #faf9ff;
+        }
+    </style>
+</head>
+
+<body>
+
+<div class="page">
+
+    <div class="navbar">
+        <div class="brand">SkillPath</div>
+
+        <div class="nav-links">
+            <a href="/">Recommendations</a>
+            <a href="/users">Add User</a>
+            <a href="/logs">History</a>
+        </div>
+    </div>
+
+    <div class="header">
+        <h1>Find Your Next Course</h1>
+        <p>
+            Get personalized course recommendations based on your
+            learning interests and skills.
+        </p>
+    </div>
+
+    <div class="card">
+
+        <form method="POST">
+
+            <label>Select User</label>
+
+            <select name="user_id" required>
+                <option value="">Choose a user</option>
+
+                {% for user in users %}
+                    <option value="{{ user.id }}">
+                        {{ user.name }}
+                    </option>
+                {% endfor %}
+            </select>
+
+            <label>What would you like to learn?</label>
+
+            <textarea
+                name="user_text"
+                placeholder="Example: I want to improve my Python and machine learning skills..."
+                required
+            ></textarea>
+
+            <button type="submit">
+                Find Courses
+            </button>
+
+        </form>
+
+    </div>
+
+    {% if result %}
+
+        <div class="card">
+
+            <h2>Your Recommendations</h2>
+
+            <p>
+                <strong>Extracted Skills:</strong>
+                {{ result.skills }}
+            </p>
+
+            {% if result.recommendations %}
+
+                {% for course in result.recommendations %}
+
+                    <div class="course">
+
+                        <div class="course-name">
+                            {{ course.course_name }}
+                        </div>
+
+                        <span class="score">
+                            Similarity:
+                            {{ "%.3f"|format(course.score) }}
+                        </span>
+
+                    </div>
+
+                {% endfor %}
+
+            {% endif %}
+
+            {% if result.explanation %}
+                <div class="explanation">
+                    <strong>Why these courses?</strong><br><br>
+                    {{ result.explanation }}
+                </div>
+            {% endif %}
+
+        </div>
+
+    {% endif %}
+
+</div>
+
+</body>
+</html>

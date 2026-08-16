@@ -1,0 +1,199 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SkillPath - History</title>
+
+    <style>
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            font-family: Arial, sans-serif;
+            background: #f7f7fb;
+            color: #2b2b33;
+        }
+
+        .page {
+            width: 88%;
+            max-width: 1100px;
+            margin: 35px auto;
+        }
+
+        .navbar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 18px 24px;
+            border-radius: 18px;
+            background: linear-gradient(135deg, #6657c8, #8a67d5);
+            box-shadow: 0 8px 24px rgba(80, 67, 150, 0.18);
+            margin-bottom: 35px;
+        }
+
+        .brand {
+            color: white;
+            font-size: 20px;
+            font-weight: bold;
+        }
+
+        .nav-links a {
+            color: white;
+            text-decoration: none;
+            margin-left: 24px;
+            font-weight: 600;
+        }
+
+        .header h1 {
+            font-size: 34px;
+            margin-bottom: 8px;
+        }
+
+        .header p {
+            color: #737382;
+            margin-bottom: 28px;
+        }
+
+        .card {
+            background: white;
+            border-radius: 22px;
+            padding: 30px;
+            box-shadow: 0 10px 30px rgba(30, 30, 50, 0.08);
+            overflow-x: auto;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        th {
+            text-align: left;
+            padding: 15px;
+            color: #6251b5;
+            background: #f3f0ff;
+            border-bottom: 2px solid #e3dcff;
+        }
+
+        td {
+            padding: 15px;
+            border-bottom: 1px solid #eeeeF4;
+        }
+
+        tbody tr:hover {
+            background: #faf9ff;
+        }
+
+        .score {
+            display: inline-block;
+            background: #e9e3ff;
+            color: #5946ad;
+            padding: 6px 11px;
+            border-radius: 20px;
+            font-weight: bold;
+            font-size: 13px;
+        }
+
+        .empty {
+            text-align: center;
+            padding: 40px;
+            color: #777785;
+        }
+    </style>
+</head>
+
+<body>
+
+<div class="page">
+
+    <div class="navbar">
+
+        <div class="brand">
+            SkillPath
+        </div>
+
+        <div class="nav-links">
+            <a href="/">Recommendations</a>
+            <a href="/users">Add User</a>
+            <a href="/logs">History</a>
+        </div>
+
+    </div>
+
+    <div class="header">
+
+        <h1>Recommendation History</h1>
+
+        <p>
+            Review previous course recommendations and their similarity scores.
+        </p>
+
+    </div>
+
+    <div class="card">
+
+        <table>
+
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>User</th>
+                    <th>Course</th>
+                    <th>Similarity</th>
+                    <th>Date</th>
+                </tr>
+            </thead>
+
+            <tbody>
+
+                {% if logs %}
+
+                    {% for log in logs %}
+
+                        <tr>
+                            <td>{{ log.id }}</td>
+
+                            <td>
+                                {{ log.user_name }}
+                            </td>
+
+                            <td>
+                                {{ log.course_name }}
+                            </td>
+
+                            <td>
+                                <span class="score">
+                                    {{ log.score }}
+                                </span>
+                            </td>
+
+                            <td>
+                                {{ log.created_at }}
+                            </td>
+                        </tr>
+
+                    {% endfor %}
+
+                {% else %}
+
+                    <tr>
+                        <td colspan="5" class="empty">
+                            No recommendation history available yet.
+                        </td>
+                    </tr>
+
+                {% endif %}
+
+            </tbody>
+
+        </table>
+
+    </div>
+
+</div>
+
+</body>
+</html>
