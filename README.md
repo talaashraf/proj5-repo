@@ -1,4 +1,4 @@
-# proj5-repo
+# AI-Based Skill Extraction and Course Recommendation System 
 # Setup Instructions
 1. Create and activate a virtual environment.
 2. Install the required Python packages.
